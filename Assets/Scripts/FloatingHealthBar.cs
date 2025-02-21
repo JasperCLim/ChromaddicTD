@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class FloatingHealthBar : MonoBehaviour
 {
     [SerializeField] private Slider slider; // slider used for health bar
-
+ 
     // Update the enemy health bar
     public void UpdateHealthBar(float currentValue, float maxValue)
     {

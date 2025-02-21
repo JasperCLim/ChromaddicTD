@@ -16,7 +16,7 @@ public class EnemyScript : MonoBehaviour
     private void moveEnemy()
 
     // This script moves the enemy towards the target tile
-
+ 
     {
         transform.position = Vector3.MoveTowards(transform.position, targetTile.transform.position, moveSpeed * Time.deltaTime);
     }
