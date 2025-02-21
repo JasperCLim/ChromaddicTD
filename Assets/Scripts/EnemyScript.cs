@@ -7,6 +7,8 @@ public class EnemyScript : MonoBehaviour
 {
     [SerializeField] private float moveSpeed; // How fast the enemy moves
     [SerializeField] private float health; // Enemy health
+    [SerializeField] private float maxHealth; // Enemy max health
+    [SerializeField] FloatingHealthBar healthBar; // Reference to the health bar
 
     private GameObject targetTile; // Current target for the enemy
     private MapScript ms; // Variable to hold the MapScript.cs reference
@@ -53,10 +55,11 @@ public class EnemyScript : MonoBehaviour
     public void die(float dmg)
     {
         health -= dmg; // apply tower damage to enemy
+        healthBar.UpdateHealthBar(health, maxHealth); // update the health bar
         Debug.Log(health);
 
         // kill enemy
-        if (health < 0)
+        if (health <= 0)
         {
             Object.Destroy(this.gameObject);
         }
@@ -70,12 +73,13 @@ public class EnemyScript : MonoBehaviour
     {
         GameObject map = GameObject.FindWithTag("Map");
         ms = map.GetComponent<MapScript>();
+        healthBar = GetComponentInChildren<FloatingHealthBar>(); // get the health bar component
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
+        healthBar.UpdateHealthBar(health, maxHealth); // enemy sarts with full health
         targetTile = ms.pathTiles[0]; // set the initial target to the first tile in the path
 
     }
