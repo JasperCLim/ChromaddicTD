@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "CISC 226 Digital Prototype.sln"
+    "dotnet.defaultSolution": "ChromaddicTD.sln"
 }

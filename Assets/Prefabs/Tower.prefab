@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf8ad6181405e91449aae8609a26829c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetingRange: 2
+  targetingRange: 1.45
   tileMask:
     serializedVersion: 2
     m_Bits: 8
