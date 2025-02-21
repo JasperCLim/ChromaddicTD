@@ -11,6 +11,7 @@ public class TowerScript : MonoBehaviour
     [SerializeField] private LayerMask enemyMask;
     [SerializeField] private string towerColor;
     [SerializeField] private float fireRate; // tower fire rate
+    [SerializeField] private float damage; // tower damage
 
     private float timer = 0; // timer for calculating damage over time
 
@@ -56,7 +57,7 @@ public class TowerScript : MonoBehaviour
         {
             Debug.Log("found enemy");
             EnemyScript es = nearbyEnemies[0].collider.GetComponent<EnemyScript>();
-            es.die(2);
+            es.die(damage);
         }
     }
 
