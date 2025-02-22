@@ -76,7 +76,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2142846193
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: bd3bc9132727efc4eb5af42803d732dd, type: 3}
   m_Color: {r: 1, g: 0, b: 0, a: 1}
@@ -103,6 +103,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 2
   health: 5
+  enemyColor: red
+  priority: 1
 --- !u!58 &8654165650800886717
 CircleCollider2D:
   m_ObjectHideFlags: 0

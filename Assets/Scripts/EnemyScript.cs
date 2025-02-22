@@ -7,6 +7,8 @@ public class EnemyScript : MonoBehaviour
 {
     [SerializeField] private float moveSpeed; // How fast the enemy moves
     [SerializeField] private float health; // Enemy health
+    [SerializeField] private string enemyColor; // Enemy Colour
+    [SerializeField] private int priority; // Enemy hit priority
 
     private GameObject targetTile; // Current target for the enemy
     private MapScript ms; // Variable to hold the MapScript.cs reference
@@ -49,6 +51,41 @@ public class EnemyScript : MonoBehaviour
         }
     }
 
+    // Decrese the priority of an enemy to make it closer to being 1 (killable)
+    public void DecreasePriority()
+    {
+        if (priority > 1)
+        {
+            priority--;
+        }
+    }
+
+    // When an enemy of priority 1 dies, move all the other priorities down by 1
+    private void LowerPriorityOfAllEnemies()
+    {
+        EnemyScript[] allEnemies = FindObjectsByType<EnemyScript>(FindObjectsSortMode.None);
+
+        foreach (EnemyScript enemy in allEnemies)
+        {
+            if (enemy.GetPriority() > 1)
+            {
+                enemy.DecreasePriority();
+            }
+        }
+    }
+
+
+
+    public int GetPriority()
+    {
+        return priority;
+    }
+
+    public string GetColor()
+    {
+        return enemyColor;
+    }
+
     // enemy loses health and dies if health goes below 0
     public void die(float dmg)
     {
@@ -56,9 +93,13 @@ public class EnemyScript : MonoBehaviour
         Debug.Log(health);
 
         // kill enemy
-        if (health < 0)
+        if (health <= 0)
         {
             Object.Destroy(this.gameObject);
+            if (priority == 1)
+            {
+                LowerPriorityOfAllEnemies();
+            }
         }
         
     }
@@ -75,9 +116,22 @@ public class EnemyScript : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
         targetTile = ms.pathTiles[0]; // set the initial target to the first tile in the path
-
+        SpriteRenderer my_sprite = GetComponent<SpriteRenderer>();
+        Color my_color = new Color(0,0,0);
+        switch(enemyColor)
+            {
+                case "blue":
+                my_color = new Color(0,0,1);
+                break;
+                case "green":
+                my_color = new Color(0,1,0);
+                break;
+                case "red":
+                my_color = new Color(1,0,0);
+                break;
+            }
+        my_sprite.color = my_color;
     }
 
     // Update is called once per frame
