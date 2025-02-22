@@ -7,6 +7,8 @@ public class EnemyScript : MonoBehaviour
 {
     [SerializeField] private float moveSpeed; // How fast the enemy moves
     [SerializeField] private float health; // Enemy health
+    [SerializeField] private float maxHealth; // Enemy max health
+    [SerializeField] FloatingHealthBar healthBar; // Reference to the health bar
     [SerializeField] private string enemyColor; // Enemy Colour
     [SerializeField] private int priority; // Enemy hit priority
 
@@ -16,7 +18,7 @@ public class EnemyScript : MonoBehaviour
     private void moveEnemy()
 
     // This script moves the enemy towards the target tile
-
+ 
     {
         transform.position = Vector3.MoveTowards(transform.position, targetTile.transform.position, moveSpeed * Time.deltaTime);
     }
@@ -90,6 +92,7 @@ public class EnemyScript : MonoBehaviour
     public void die(float dmg)
     {
         health -= dmg; // apply tower damage to enemy
+        healthBar.UpdateHealthBar(health, maxHealth); // update the health bar
         Debug.Log(health);
 
         // kill enemy
@@ -111,11 +114,13 @@ public class EnemyScript : MonoBehaviour
     {
         GameObject map = GameObject.FindWithTag("Map");
         ms = map.GetComponent<MapScript>();
+        healthBar = GetComponentInChildren<FloatingHealthBar>(); // get the health bar component
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        healthBar.UpdateHealthBar(health, maxHealth); // enemy sarts with full health
         targetTile = ms.pathTiles[0]; // set the initial target to the first tile in the path
         SpriteRenderer my_sprite = GetComponent<SpriteRenderer>();
         Color my_color = new Color(0,0,0);
