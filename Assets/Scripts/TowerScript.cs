@@ -12,6 +12,7 @@ public class TowerScript : MonoBehaviour
     [SerializeField] private string towerColor;
     [SerializeField] private float fireRate; // tower fire rate
     [SerializeField] private float damage; // tower damage
+    [SerializeField] private Color my_color = new Color(0,0,0);
 
     private float timer = 0; // timer for calculating damage over time
 
@@ -68,10 +69,12 @@ public class TowerScript : MonoBehaviour
         }
 
         // Damage the enemy with priority 1 if it was hit by a tower of the same colour
-        if (targetEnemy != null && targetEnemy.GetColor() == towerColor)
+        if (targetEnemy != null && targetEnemy.GetColor() == my_color)
         {
-            Debug.Log($"Tower ({towerColor}) is attacking the {targetEnemy.GetColor()} enemy");
-            targetEnemy.die(damage);
+            string towercolorstring = my_color.ToString();
+            string enemycolorstring = targetEnemy.GetColor().ToString();
+            Debug.Log($"Tower ({towercolorstring}) is attacking the ({enemycolorstring}) enemy");
+            targetEnemy.die(damage, my_color);
         }
     }
 
@@ -79,7 +82,7 @@ public class TowerScript : MonoBehaviour
     void Start()
     {
         SpriteRenderer my_sprite = GetComponent<SpriteRenderer>();
-        Color my_color = new Color(0,0,0);
+        
         switch(towerColor)
             {
                 case "blue":

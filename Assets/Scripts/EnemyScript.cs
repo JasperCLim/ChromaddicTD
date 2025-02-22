@@ -12,6 +12,7 @@ public class EnemyScript : MonoBehaviour
     [SerializeField] private string enemyColor; // Enemy Colour
     [SerializeField] private int priority; // Enemy hit priority
 
+    private Color my_color = new Color(0,0,0);
     private GameObject targetTile; // Current target for the enemy
     private MapScript ms; // Variable to hold the MapScript.cs reference
 
@@ -83,13 +84,13 @@ public class EnemyScript : MonoBehaviour
         return priority;
     }
 
-    public string GetColor()
+    public Color GetColor()
     {
-        return enemyColor;
+        return my_color;
     }
 
     // enemy loses health and dies if health goes below 0
-    public void die(float dmg)
+    public void die(float dmg, Color towerColor)
     {
         health -= dmg; // apply tower damage to enemy
         healthBar.UpdateHealthBar(health, maxHealth); // update the health bar
@@ -101,7 +102,12 @@ public class EnemyScript : MonoBehaviour
             Object.Destroy(this.gameObject);
             if (priority == 1)
             {
-                LowerPriorityOfAllEnemies();
+                LayeredEnemyScript les = GetComponentInParent<LayeredEnemyScript>();
+                if (les)
+                {
+                    les.DecreaseEachPriority();
+                }
+                
             }
         }
         
@@ -123,7 +129,7 @@ public class EnemyScript : MonoBehaviour
         healthBar.UpdateHealthBar(health, maxHealth); // enemy starts with full health
         targetTile = ms.pathTiles[0]; // set the initial target to the first tile in the path
         SpriteRenderer my_sprite = GetComponent<SpriteRenderer>();
-        Color my_color = new Color(0,0,0);
+
         switch(enemyColor)
             {
                 case "blue":

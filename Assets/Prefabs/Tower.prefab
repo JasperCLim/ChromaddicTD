@@ -75,7 +75,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1306694433
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 0c46d3fa8a42c1848a6b48c5848d2b28, type: 3}
   m_Color: {r: 0.056069765, g: 0.079058915, b: 0.7924528, a: 1}
@@ -108,5 +108,5 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   towerColor: blue
-  fireRate: 0.5
+  fireRate: 0.2
   damage: 1

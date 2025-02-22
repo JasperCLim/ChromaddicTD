@@ -80,7 +80,7 @@ SpriteRenderer:
   m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: bd3bc9132727efc4eb5af42803d732dd, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.054901965, g: 0.078431375, b: 0.79215693, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -106,7 +106,7 @@ MonoBehaviour:
   health: 12
   maxHealth: 12
   healthBar: {fileID: 0}
-  enemyColor: red
+  enemyColor: blue
   priority: 1
 --- !u!58 &2756789061489354725
 CircleCollider2D:
@@ -224,7 +224,7 @@ SpriteRenderer:
   m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: bd3bc9132727efc4eb5af42803d732dd, type: 3}
-  m_Color: {r: 0, g: 0.015195131, b: 1, a: 1}
+  m_Color: {r: 0.9960785, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -250,7 +250,7 @@ MonoBehaviour:
   health: 12
   maxHealth: 12
   healthBar: {fileID: 0}
-  enemyColor: blue
+  enemyColor: red
   priority: 2
 --- !u!58 &3365936426932046375
 CircleCollider2D:
@@ -651,6 +651,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1106588297614556736}
+  - component: {fileID: 7287376928953027368}
   m_Layer: 0
   m_Name: Layered Enemy
   m_TagString: Untagged
@@ -675,6 +676,21 @@ Transform:
   - {fileID: 6930343817327686582}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7287376928953027368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3112111799058956775}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0973c231c75360438bf92c219494f6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyList:
+  - {fileID: 7324497089293037168}
+  - {fileID: 7877348909467943858}
 --- !u!1 &3489077073992618099
 GameObject:
   m_ObjectHideFlags: 0
