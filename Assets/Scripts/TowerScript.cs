@@ -53,11 +53,25 @@ public class TowerScript : MonoBehaviour
     private void FindNearbyEnemies()
     {
         RaycastHit2D[] nearbyEnemies = Physics2D.CircleCastAll(transform.position, targetingRange, (Vector2)transform.position, 0f, enemyMask);
-        if (nearbyEnemies.Length > 0)
+        EnemyScript targetEnemy = null;
+
+        // Find if the enemy with priority 1 was hit
+        foreach (RaycastHit2D hit in nearbyEnemies)
         {
-            Debug.Log("found enemy");
-            EnemyScript es = nearbyEnemies[0].collider.GetComponent<EnemyScript>();
-            es.die(damage);
+            EnemyScript enemy = hit.collider.GetComponent<EnemyScript>();
+
+            if (enemy != null && enemy.GetPriority() == 1)
+            {
+                targetEnemy = enemy;
+                break;
+            }
+        }
+
+        // Damage the enemy with priority 1 if it was hit by a tower of the same colour
+        if (targetEnemy != null && targetEnemy.GetColor() == towerColor)
+        {
+            Debug.Log($"Tower ({towerColor}) is attacking the {targetEnemy.GetColor()} enemy");
+            targetEnemy.die(damage);
         }
     }
 
