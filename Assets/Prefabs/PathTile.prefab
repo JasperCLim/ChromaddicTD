@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7704540029634872371}
   m_Layer: 3
   m_Name: PathTile
-  m_TagString: Untagged
+  m_TagString: Path
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -79,7 +79,7 @@ SpriteRenderer:
   m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 25f83219d3fc8bd4da6dd00393b058bd, type: 3}
-  m_Color: {r: 0.042452812, g: 1, b: 0.042452812, a: 1}
+  m_Color: {r: 0.0032039855, g: 0.03773582, b: 0.0032039855, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

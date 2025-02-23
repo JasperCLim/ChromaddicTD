@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 2931437107138641945}
   - component: {fileID: 7432458996737462739}
   - component: {fileID: -4354538503460021817}
-  m_Layer: 6
-  m_Name: Tower
+  m_Layer: 7
+  m_Name: Blue Tower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -78,7 +78,7 @@ SpriteRenderer:
   m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 0c46d3fa8a42c1848a6b48c5848d2b28, type: 3}
-  m_Color: {r: 0.056069765, g: 0.079058915, b: 0.7924528, a: 1}
+  m_Color: {r: 0, g: 0, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -109,4 +109,5 @@ MonoBehaviour:
     m_Bits: 64
   towerColor: blue
   fireRate: 0.2
-  damage: 1
+  damage: 5
+  my_color: {r: 0, g: 0, b: 0, a: 1}
