@@ -80,7 +80,7 @@ SpriteRenderer:
   m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: bd3bc9132727efc4eb5af42803d732dd, type: 3}
-  m_Color: {r: 0.054901965, g: 0.078431375, b: 0.79215693, a: 1}
+  m_Color: {r: 0, g: 0, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -224,7 +224,7 @@ SpriteRenderer:
   m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: bd3bc9132727efc4eb5af42803d732dd, type: 3}
-  m_Color: {r: 0.9960785, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 1, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -250,7 +250,7 @@ MonoBehaviour:
   health: 12
   maxHealth: 12
   healthBar: {fileID: 0}
-  enemyColor: red
+  enemyColor: green
   priority: 2
 --- !u!58 &3365936426932046375
 CircleCollider2D:
@@ -653,8 +653,8 @@ GameObject:
   - component: {fileID: 1106588297614556736}
   - component: {fileID: 7287376928953027368}
   m_Layer: 0
-  m_Name: Layered Enemy
-  m_TagString: Untagged
+  m_Name: Two Layer Enemy (BG)
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

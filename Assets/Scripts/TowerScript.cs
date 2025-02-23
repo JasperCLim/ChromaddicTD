@@ -22,7 +22,7 @@ public class TowerScript : MonoBehaviour
     
         if (nearbyTiles.Length > 0)
         {
-            //Debug.Log("Found nearby tiles");
+
             int numHits = nearbyTiles.Length;
             foreach(RaycastHit2D i in nearbyTiles)
             {
@@ -74,7 +74,7 @@ public class TowerScript : MonoBehaviour
             string towercolorstring = my_color.ToString();
             string enemycolorstring = targetEnemy.GetColor().ToString();
             Debug.Log($"Tower ({towercolorstring}) is attacking the ({enemycolorstring}) enemy");
-            targetEnemy.die(damage, my_color);
+            targetEnemy.Die(damage, my_color);
         }
     }
 

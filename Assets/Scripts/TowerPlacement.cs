@@ -31,12 +31,12 @@ public class TowerPlacement : MonoBehaviour
 
         if (tile.collider != null)
         {
-            //Debug.Log(tile.collider.tag);
+
             // Check if it's a map tile but not a path tile
             if (tile.collider.tag == "Background" && tile.collider.tag != "Path")
                 {
                     hoverTile = tile.collider.gameObject; // Set hoverTile value to GameObject
-                    //Debug.Log(hoverTile);
+
                 }
            
         }
@@ -98,7 +98,7 @@ public class TowerPlacement : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        //Debug.Log(GetMouseLocation());
+
         if (isBuilding) // already in build mode, preview tower on mouse location
         {
             if (previewTower != null)
@@ -118,21 +118,18 @@ public class TowerPlacement : MonoBehaviour
         } 
         else // not current building, look for input to start building
         {
-            if (Input.GetKeyDown(KeyCode.R))
+            if (Input.GetKeyDown(KeyCode.R)) // place red tower
             {
-                Debug.Log("Red Tower");
                 towerToPlace = availableTowers[0];
                 PreviewBuilding();
             } 
-            else if (Input.GetKeyDown(KeyCode.G))
+            else if (Input.GetKeyDown(KeyCode.G)) // place green tower
             {
-                Debug.Log("Green Tower");
                 towerToPlace = availableTowers[1];
                 PreviewBuilding();            
             }
-            else if (Input.GetKeyDown(KeyCode.B))
+            else if (Input.GetKeyDown(KeyCode.B)) // place blue tower
             {            
-                Debug.Log("Blue Tower");
                 towerToPlace = availableTowers[2];
                 PreviewBuilding();
             }

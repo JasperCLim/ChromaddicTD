@@ -55,12 +55,14 @@ public class EnemyScript : MonoBehaviour
     }
 
     // Decrese the priority of an enemy to make it closer to being 1 (killable)
-    public void DecreasePriority()
+    public int DecreasePriority()
     {
         if (priority > 1)
         {
             priority--;
+            return 1;
         }
+        return 0;
     }
 
     // When an enemy of priority 1 dies, move all the other priorities down by 1
@@ -90,7 +92,7 @@ public class EnemyScript : MonoBehaviour
     }
 
     // enemy loses health and dies if health goes below 0
-    public void die(float dmg, Color towerColor)
+    public void Die(float dmg, Color towerColor)
     {
         health -= dmg; // apply tower damage to enemy
         healthBar.UpdateHealthBar(health, maxHealth); // update the health bar
