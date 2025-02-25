@@ -72,13 +72,9 @@ public class TowerScript : MonoBehaviour
         // Damage the enemy with priority 1 if it was hit by a tower of the same colour
         if (targetEnemy != null)
         {
-            string towercolorstring = my_color.ToString();
-            string enemycolorstring = targetEnemy.GetColor().ToString();
-           // Debug.Log($"Tower ({towercolorstring}) is attacking the ({enemycolorstring}) enemy");
+
             GameObject myself = transform.gameObject;
-            Debug.Log(damage);
-            Debug.Log(my_color);
-            Debug.Log(myself);
+
             targetEnemy.Die(damage, my_color, myself);
         }
     }
