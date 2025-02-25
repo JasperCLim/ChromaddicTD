@@ -145,7 +145,11 @@ public class EnemyScript : MonoBehaviour
         if (health <= 0)
         {
             LayeredEnemyScript les = GetComponentInParent<LayeredEnemyScript>();
-            les.RemoveEnemy(this.gameObject);
+            if (les)
+            {
+                les.RemoveEnemy(this.gameObject);
+            }
+
 
             if (priority == 1)
             {

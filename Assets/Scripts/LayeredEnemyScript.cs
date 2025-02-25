@@ -45,7 +45,7 @@ public class LayeredEnemyScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(enemyList.Count);
+        //Debug.Log(enemyList.Count);
         if (enemyList.Count == 0)
         {
             Object.Destroy(this.gameObject);
