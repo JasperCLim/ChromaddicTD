@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEditor;
 using System.Threading;
+using Unity.VisualScripting;
 
 public class TowerScript : MonoBehaviour
 {
@@ -26,7 +27,7 @@ public class TowerScript : MonoBehaviour
             int numHits = nearbyTiles.Length;
             foreach(RaycastHit2D i in nearbyTiles)
             {
-                PathTileScript tileScript = i.collider.GetComponent<PathTileScript>();
+                PathTileScript tileScript = i.collider.GetComponentInChildren<PathTileScript>();
                 if (Vector2.Distance(i.transform.position, transform.position) < targetingRange)
                 {
                     switch(towerColor)
@@ -69,12 +70,16 @@ public class TowerScript : MonoBehaviour
         }
 
         // Damage the enemy with priority 1 if it was hit by a tower of the same colour
-        if (targetEnemy != null && targetEnemy.GetColor() == my_color)
+        if (targetEnemy != null)
         {
             string towercolorstring = my_color.ToString();
             string enemycolorstring = targetEnemy.GetColor().ToString();
-            Debug.Log($"Tower ({towercolorstring}) is attacking the ({enemycolorstring}) enemy");
-            targetEnemy.Die(damage, my_color);
+           // Debug.Log($"Tower ({towercolorstring}) is attacking the ({enemycolorstring}) enemy");
+            GameObject myself = transform.gameObject;
+            Debug.Log(damage);
+            Debug.Log(my_color);
+            Debug.Log(myself);
+            targetEnemy.Die(damage, my_color, myself);
         }
     }
 

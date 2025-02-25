@@ -108,6 +108,7 @@ MonoBehaviour:
   healthBar: {fileID: 0}
   enemyColor: red
   priority: 1
+  attackTowerColorMix: {r: 0, g: 0, b: 0, a: 0}
 --- !u!58 &2756789061489354725
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -252,6 +253,7 @@ MonoBehaviour:
   healthBar: {fileID: 0}
   enemyColor: green
   priority: 2
+  attackTowerColorMix: {r: 0, g: 0, b: 0, a: 0}
 --- !u!58 &3365936426932046375
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -689,8 +691,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyList:
-  - {fileID: 7324497089293037168}
-  - {fileID: 7877348909467943858}
+  - {fileID: 254300831958434824}
+  - {fileID: 825096689314195914}
 --- !u!1 &3489077073992618099
 GameObject:
   m_ObjectHideFlags: 0
