@@ -48,7 +48,8 @@ public class EnemyScript : MonoBehaviour
                 {
                     LayeredEnemyScript les = GetComponentInParent<LayeredEnemyScript>();
                     les.RemoveEnemy(this.gameObject);
-                    Destroy(transform.gameObject);
+                    //Destroy(transform.gameObject);
+                    EndPath();
                     Debug.Log("Enemy reached end of path. Lose a life");
                 }
                 else // find next target along path
@@ -61,6 +62,12 @@ public class EnemyScript : MonoBehaviour
             }
 
         }
+    }
+
+    // decrement the number of lives and destroy the enemy once enemy reaches end of path
+    void EndPath() {
+        PlayerStats.Lives--;
+        Destroy(transform.gameObject);
     }
 
     // Decrese the priority of an enemy to make it closer to being 1 (killable)
