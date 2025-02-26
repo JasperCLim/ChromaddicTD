@@ -1,3 +1,4 @@
+using NUnit.Framework.Constraints;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -25,33 +26,33 @@ public class TowerPlacement : MonoBehaviour
 
     private void FindTileToBuild()
     {
+        // find the tile under the current mouse location
         Vector2 mousePosition = GetMouseLocation();
 
         RaycastHit2D tile = Physics2D.Raycast(mousePosition,new Vector2(0,0), 0.1f, tileMask,-100,100);
 
         if (tile.collider != null)
         {
-
             // Check if it's a map tile but not a path tile
             if (tile.collider.tag == "Background" && tile.collider.tag != "Path")
-                {
-                    hoverTile = tile.collider.gameObject; // Set hoverTile value to GameObject
-
-                }
-           
+            {
+                hoverTile = tile.collider.gameObject; // Set hoverTile value to GameObject
+            } 
         }
     }
 
     public bool TowerExistsAlready()
     {
+        // See if a tower is already on the tile, if so don't let player build there
         bool towerExists = false;
 
         Vector2 mousePosition = GetMouseLocation();
 
-        RaycastHit2D tile = Physics2D.Raycast(mousePosition,new Vector2(0,0), 0.1f, towerMask,-100,100);
+        RaycastHit2D tower = Physics2D.Raycast(mousePosition,new Vector2(0,0), 0.1f, towerMask,-100,100);
 
-        if (tile.collider != null)
+        if (tower.collider != null)
         {
+            Debug.Log("Tower already here");
             towerExists = true;
         }
 
@@ -70,7 +71,7 @@ public class TowerPlacement : MonoBehaviour
 
             if (previewTower != null)
             {
-                Destroy(previewTower);
+                Destroy(previewTower); // make the preview tower disappear now that actual tower is placed
             }
         }
     }
@@ -80,22 +81,14 @@ public class TowerPlacement : MonoBehaviour
         isBuilding = true;
 
         previewTower = Instantiate(towerToPlace);
+        previewTower.layer = LayerMask.NameToLayer("PreviewLayer");
 
         if (previewTower.GetComponent<TowerScript>() != null)
         {
             Destroy(previewTower.GetComponent<TowerScript>()); // make sure TowerScript doesn't run during preview placement
         }
-
-
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    private void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     private void Update()
     {
 
@@ -111,8 +104,12 @@ public class TowerPlacement : MonoBehaviour
                 }
                 if (Input.GetButtonDown("Fire1"))
                 {
-                    Debug.Log("Place Tower");
-                    PlaceTower();
+
+                    {
+                        //Debug.Log("Place Tower");
+                        PlaceTower();
+                    }
+
                 }
             }
         } 

@@ -1,5 +1,9 @@
+using System.Collections.Generic;
+using System.Collections;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
@@ -16,8 +20,11 @@ public class EnemyScript : MonoBehaviour
     private GameObject targetTile; // Current target for the enemy
     private MapScript ms; // Variable to hold the MapScript.cs reference
 
-    private void moveEnemy()
+    private List<GameObject> towersAttackingMe = new List<GameObject>();
 
+    public Color attackTowerColorMix;
+
+    private void moveEnemy()
     // This script moves the enemy towards the target tile
  
     {
@@ -39,6 +46,8 @@ public class EnemyScript : MonoBehaviour
             {
                 if (targetTile == ms.endTile) // end of path, destroy enemy
                 {
+                    LayeredEnemyScript les = GetComponentInParent<LayeredEnemyScript>();
+                    les.RemoveEnemy(this.gameObject);
                     Destroy(transform.gameObject);
                     Debug.Log("Enemy reached end of path. Lose a life");
                 }
@@ -92,27 +101,79 @@ public class EnemyScript : MonoBehaviour
     }
 
     // enemy loses health and dies if health goes below 0
-    public void Die(float dmg, Color towerColor)
+    public void Die(float dmg, Color attackingColor, GameObject attackingTower)
     {
-        health -= dmg; // apply tower damage to enemy
+
+        if(towersAttackingMe.Contains(attackingTower))
+        {
+            // this tower is already attacking
+        } 
+        else
+        {
+            // add the new tower to the mix of attacking towers
+        
+        if (attackingColor.r == 1)
+        {
+            attackTowerColorMix.r = 1;
+        }
+        if (attackingColor.g == 1)
+        {
+            attackTowerColorMix.g = 1;
+        }
+        if (attackingColor.b == 1)
+        {
+            attackTowerColorMix.b = 1;
+        }
+        if (attackingColor.a == 1)
+        {
+            attackTowerColorMix.a = 1;
+        }
+        towersAttackingMe.Add(attackingTower);
+        }
+
+        Debug.Log(my_color + " attacked by: " + attackTowerColorMix);
+
+        if (attackTowerColorMix == my_color)
+        {
+            health -= dmg; // apply tower damage to enemy
+        }
+
         healthBar.UpdateHealthBar(health, maxHealth); // update the health bar
         Debug.Log(health);
 
         // kill enemy
         if (health <= 0)
         {
-            Object.Destroy(this.gameObject);
+            LayeredEnemyScript les = GetComponentInParent<LayeredEnemyScript>();
+            if (les)
+            {
+                les.RemoveEnemy(this.gameObject);
+            }
+
+
             if (priority == 1)
             {
-                LayeredEnemyScript les = GetComponentInParent<LayeredEnemyScript>();
+                
                 if (les)
                 {
                     les.DecreaseEachPriority();
                 }
                 
             }
+            Object.Destroy(this.gameObject);
         }
+
+        StartCoroutine(ResetColor(attackingTower));
         
+    }
+
+
+    IEnumerator ResetColor(GameObject attackingTower)
+    {
+        //yield on a new YieldInstruction that waits for 1 seconds.
+        yield return new WaitForSeconds(1);
+        attackTowerColorMix = new Color(0,0,0,0);
+        towersAttackingMe.Remove(attackingTower);
     }
 
     void Awake()

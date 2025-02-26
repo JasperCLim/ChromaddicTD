@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -5,17 +6,22 @@ using UnityEngine.InputSystem;
 public class LayeredEnemyScript : MonoBehaviour
 {
 
-    [SerializeField] private EnemyScript[] enemyList;
+    [SerializeField] private List<GameObject> enemyList = new List<GameObject>();
+
+    public void RemoveEnemy(GameObject enemy)
+    {
+        enemyList.Remove(enemy);
+    }
 
     public void DecreaseEachPriority()
     {
         int enemyCounter = 0; // see how many enemies are left alive
 
 
-        foreach (EnemyScript es in enemyList)
+        foreach (GameObject es in enemyList)
         {
 
-            enemyCounter += es.DecreasePriority();
+            enemyCounter += es.GetComponent<EnemyScript>().DecreasePriority();
 
         }
 
@@ -39,6 +45,10 @@ public class LayeredEnemyScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        //Debug.Log(enemyList.Count);
+        if (enemyList.Count == 0)
+        {
+            Object.Destroy(this.gameObject);
+        }
     }
 }

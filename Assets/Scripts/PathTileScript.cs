@@ -9,7 +9,12 @@ public class PathTileScript : MonoBehaviour
     public void lightUp(float r, float g, float b)
     {
         SpriteRenderer my_sprite =  GetComponent<SpriteRenderer>();
-        Color my_newColor = new Color(r,g,b);
+
+        float new_r = r + my_sprite.color.r;
+        float new_g = g + my_sprite.color.g;
+        float new_b = b + my_sprite.color.b;
+        
+        Color my_newColor = new Color(new_r,new_g,new_b);
         my_sprite.color = my_newColor;
         //StartCoroutine(ExampleCoroutine());
     }
@@ -33,7 +38,10 @@ public class PathTileScript : MonoBehaviour
 
     void Start()
     {
+        SpriteRenderer parent_sprite = GetComponentsInParent<SpriteRenderer>()[1];
+        
         SpriteRenderer my_sprite = GetComponent<SpriteRenderer>();
+        my_sprite.color = parent_sprite.color;
         originalColor = my_sprite.color;
     }
 
