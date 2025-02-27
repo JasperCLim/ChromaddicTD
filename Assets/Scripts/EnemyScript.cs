@@ -47,7 +47,11 @@ public class EnemyScript : MonoBehaviour
                 if (targetTile == ms.endTile) // end of path, destroy enemy
                 {
                     LayeredEnemyScript les = GetComponentInParent<LayeredEnemyScript>();
-                    les.RemoveEnemy(this.gameObject);
+                    if (les)
+                    {
+                        les.RemoveEnemy(this.gameObject); // remove the enemy from the layered enemy list of contents
+                    }
+                    
                     //Destroy(transform.gameObject);
                     EndPath();
                     Debug.Log("Enemy reached end of path. Lose a life");
