@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // end the game
     void EndGame() {
         gameEnded = true;
         Debug.Log("Game Over!");
