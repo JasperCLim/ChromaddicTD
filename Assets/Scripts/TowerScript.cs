@@ -8,7 +8,7 @@ public class TowerScript : MonoBehaviour
 {
 
     [SerializeField] private float targetingRange;
-    [SerializeField] private LayerMask tileMask;
+    [SerializeField] private LayerMask renderMask;
     [SerializeField] private LayerMask enemyMask;
     [SerializeField] private string towerColor;
     [SerializeField] private float fireRate; // tower fire rate
@@ -17,9 +17,11 @@ public class TowerScript : MonoBehaviour
 
     private float timer = 0; // timer for calculating damage over time
 
+    private AudioSource audioSource;
+
     private void FindNearbyTiles()
     {
-        RaycastHit2D[] nearbyTiles = Physics2D.CircleCastAll(transform.position, targetingRange, (Vector2)transform.position, 0f, tileMask);
+        RaycastHit2D[] nearbyTiles = Physics2D.CircleCastAll(transform.position, targetingRange, (Vector2)transform.position, 0f, renderMask);
     
         if (nearbyTiles.Length > 0)
         {
@@ -27,7 +29,7 @@ public class TowerScript : MonoBehaviour
             int numHits = nearbyTiles.Length;
             foreach(RaycastHit2D i in nearbyTiles)
             {
-                PathTileScript tileScript = i.collider.GetComponentInChildren<PathTileScript>();
+                PathTileScript tileScript = i.collider.GetComponent<PathTileScript>();
                 if (Vector2.Distance(i.transform.position, transform.position) < targetingRange)
                 {
                     switch(towerColor)
@@ -44,7 +46,7 @@ public class TowerScript : MonoBehaviour
                     }
                     
                 }
-                else tileScript.resetColor();
+                //else tileScript.resetColor();
 
                 
             }
@@ -76,12 +78,16 @@ public class TowerScript : MonoBehaviour
             GameObject myself = transform.gameObject;
 
             targetEnemy.Die(damage, my_color, myself);
+            audioSource.Play();
         }
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+
+        audioSource = GetComponent<AudioSource>();
+
         SpriteRenderer my_sprite = GetComponent<SpriteRenderer>();
         
         switch(towerColor)
@@ -115,10 +121,11 @@ public class TowerScript : MonoBehaviour
         
     }
 
+#if UNITY_EDITOR
     private void OnDrawGizmosSelected()
     {
-        Handles.color = Color.cyan;
-        Handles.DrawWireDisc(transform.position, transform.forward, targetingRange);
+        UnityEditor.Handles.color = Color.cyan;
+        UnityEditor.Handles.DrawWireDisc(transform.position, transform.forward, targetingRange);
     }
-
+#endif
 }
