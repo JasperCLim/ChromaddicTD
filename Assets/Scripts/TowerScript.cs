@@ -17,6 +17,8 @@ public class TowerScript : MonoBehaviour
 
     private float timer = 0; // timer for calculating damage over time
 
+    private AudioSource audioSource;
+
     private void FindNearbyTiles()
     {
         RaycastHit2D[] nearbyTiles = Physics2D.CircleCastAll(transform.position, targetingRange, (Vector2)transform.position, 0f, tileMask);
@@ -76,12 +78,16 @@ public class TowerScript : MonoBehaviour
             GameObject myself = transform.gameObject;
 
             targetEnemy.Die(damage, my_color, myself);
+            audioSource.Play();
         }
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+
+        audioSource = GetComponent<AudioSource>();
+
         SpriteRenderer my_sprite = GetComponent<SpriteRenderer>();
         
         switch(towerColor)
