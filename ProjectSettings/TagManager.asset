@@ -57,8 +57,8 @@ TagManager:
   - name: Tower
     uniqueID: 1306694433
     locked: 0
-  - name: TowerAttackRender
-    uniqueID: 94281325
+  - name: TowerAttack
+    uniqueID: 3405434425
     locked: 0
   m_RenderingLayers:
   - Default
