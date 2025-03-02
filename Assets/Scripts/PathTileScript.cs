@@ -14,7 +14,7 @@ public class PathTileScript : MonoBehaviour
         float new_g = g + my_sprite.color.g;
         float new_b = b + my_sprite.color.b;
         
-        Color my_newColor = new Color(new_r,new_g,new_b);
+        Color my_newColor = new Color(new_r,new_g,new_b,0.25f);
         my_sprite.color = my_newColor;
         //StartCoroutine(ExampleCoroutine());
     }
@@ -38,10 +38,10 @@ public class PathTileScript : MonoBehaviour
 
     void Start()
     {
-        SpriteRenderer parent_sprite = GetComponentsInParent<SpriteRenderer>()[1];
+        //SpriteRenderer parent_sprite = GetComponentsInParent<SpriteRenderer>()[1];
         
         SpriteRenderer my_sprite = GetComponent<SpriteRenderer>();
-        my_sprite.color = parent_sprite.color;
+        //my_sprite.color = parent_sprite.color;
         originalColor = my_sprite.color;
     }
 
