@@ -102,9 +102,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetingRange: 1.45
-  tileMask:
+  renderMask:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 512
   enemyMask:
     serializedVersion: 2
     m_Bits: 64
