@@ -44,7 +44,7 @@ public class TowerScript : MonoBehaviour
                     }
                     
                 }
-                else tileScript.resetColor();
+                //else tileScript.resetColor();
 
                 
             }
