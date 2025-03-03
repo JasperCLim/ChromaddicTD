@@ -10,7 +10,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] GameObject[] enemyList;
     [SerializeField] int round;
     [SerializeField] private float timeBetweenWaves; // implement later
-
+    [SerializeField] private GameManager gameManager;
     private bool enemiesAlive;
 
     private void SpawnEnemies()
@@ -47,9 +47,12 @@ public class EnemySpawner : MonoBehaviour
         }
         else
         {
-            //round over, start a new one
-            round++;
-            SpawnEnemies();
+            //round over, start a new one if the game hasn't ended
+            if (!gameManager.gameEnded)
+            {
+                round++;
+                SpawnEnemies();
+            }
         }
     }
 }

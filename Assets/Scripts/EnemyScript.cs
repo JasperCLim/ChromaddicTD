@@ -69,7 +69,10 @@ public class EnemyScript : MonoBehaviour
 
     // decrement the number of lives and destroy the enemy once enemy reaches end of path
     void EndPath() {
-        PlayerStats.Lives--;
+        if (PlayerStats.Lives !=0)
+        {
+            PlayerStats.Lives--;
+        }
         Destroy(transform.gameObject);
     }
 
