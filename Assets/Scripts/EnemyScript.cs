@@ -214,6 +214,18 @@ public class EnemyScript : MonoBehaviour
                 case "red":
                 my_color = new Color(1,0,0);
                 break;
+                case "white":
+                my_color = new Color(1,1,1);
+                break;
+                case "yellow":
+                my_color = new Color(1,1,0);
+                break;
+                case "cyan":
+                my_color = new Color(0,1,1);
+                break;
+                case "magenta":
+                my_color = new Color(1,0,1);
+                break;
             }
         my_sprite.color = my_color;
     }

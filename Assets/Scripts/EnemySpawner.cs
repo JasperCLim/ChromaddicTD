@@ -12,22 +12,72 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private float timeBetweenWaves; // implement later
 
     private bool enemiesAlive;
+    private bool resting;
+//    GameObject[] enemies = AssetDatabase.FindAssets("t:prefab", new string[] {"Assets/Prefabs/Enemies"});
+    
 
-    private void SpawnEnemies()
+    int[][] uniqueWaves = {
+        new int[] {-1,2,3},
+        new int[] {-1,4},
+        new int[] {3,4,4,5}
+    };
+
+
+    private void SpawnEnemiesPreset()
     {
         //UnityEngine.Debug.Log("spawning");
-        StartCoroutine("ISpawnEnemies");
+        StartCoroutine("ISpawnEnemiesPreset");
     }
 
-    IEnumerator ISpawnEnemies()
+    private void SpawnEnemiesRand()
+    {
+    //UnityEngine.Debug.Log("spawning");
+    StartCoroutine("ISpawnEnemiesRand");
+    }
+
+    public int roundNum()
+    {
+        return round;
+    }
+
+    IEnumerator ISpawnEnemiesPreset()
+    {
+        for (int i = 0; i < uniqueWaves[round].Length; i++)
+        {
+            for (int j = 0; j < uniqueWaves[round][i]; j++) {
+                GameObject newEnemy = Instantiate(enemyList[i],this.transform.position,Quaternion.identity);
+                yield return new WaitForSeconds(1f);
+        
+            }}
+    }
+    IEnumerator ISpawnEnemiesRand()
     {
         for (int i = 0; i < round; i++)
         {
-            int enemyIndex = UnityEngine.Random.Range(0,8); // sequential spawn, make random later
+            int enemyIndex = UnityEngine.Random.Range(0,41);
 
             GameObject newEnemy = Instantiate(enemyList[enemyIndex],this.transform.position,Quaternion.identity);
             yield return new WaitForSeconds(1f);
         }
+    }
+
+    IEnumerator restTime()
+    {
+        resting = true;
+        yield return new WaitForSeconds(timeBetweenWaves);
+        resting = false;
+        if (round <= uniqueWaves.Length) {
+            if (uniqueWaves[round][0]==-1) {
+                SpawnEnemiesRand();
+            }
+            else {
+                SpawnEnemiesPreset();
+            }
+        }
+        else {
+            SpawnEnemiesRand();
+        }
+        
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -40,16 +90,16 @@ public class EnemySpawner : MonoBehaviour
     void Update()
     {
         GameObject[] enemyLeft = GameObject.FindGameObjectsWithTag("Enemy");
-        if (enemyLeft.Length > 0)
+        if (enemyLeft.Length > 0 | resting is true)
         {
-            // round in progress
+            // round or rest in progress
             return;
         }
         else
         {
             //round over, start a new one
             round++;
-            SpawnEnemies();
+            StartCoroutine("restTime");
         }
     }
 }
