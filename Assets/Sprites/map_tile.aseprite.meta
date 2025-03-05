@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d579d84c713b9144a8276c6765fd98de
+guid: 0c3fcc0f6897bf64f99d3fcd16a30250
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -123,10 +123,10 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
-  - name: path_tile
+  - name: map_tile
     originalName: 
-    pivot: {x: 0.5, y: 0}
-    alignment: 9
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
     rect:
@@ -135,7 +135,7 @@ ScriptedImporter:
       y: 4
       width: 256
       height: 256
-    spriteID: 2d231a4fed01948ea85bd95564dafa5d
+    spriteID: 7ecddb9cd0aec4e3e853e68cdb08237f
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -147,13 +147,13 @@ ScriptedImporter:
   spriteSheetImportData: []
   asepriteLayers:
   - layerIndex: 0
-    guid: 572994646
-    name: path_tile
+    guid: -2052542253
+    name: map_tile
     layerFlags: 0
     layerType: 0
     blendMode: 0
     cells:
-    - name: path_tile
+    - name: map_tile
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:
@@ -161,7 +161,7 @@ ScriptedImporter:
         y: 0
         width: 256
         height: 256
-      spriteId: 2d231a4fed01948ea85bd95564dafa5d
+      spriteId: 7ecddb9cd0aec4e3e853e68cdb08237f
     linkedCells: []
     parentIndex: -1
   platformSettings:
