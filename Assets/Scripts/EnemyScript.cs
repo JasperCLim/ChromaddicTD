@@ -144,7 +144,7 @@ public class EnemyScript : MonoBehaviour
         towersAttackingMe.Add(attackingTower);
         }
 
-        Debug.Log(my_color + " attacked by: " + attackTowerColorMix);
+        //Debug.Log(my_color + " attacked by: " + attackTowerColorMix);
 
         if (attackTowerColorMix == my_color)
         {
@@ -152,7 +152,7 @@ public class EnemyScript : MonoBehaviour
         }
 
         healthBar.UpdateHealthBar(health, maxHealth); // update the health bar
-        Debug.Log(health);
+        //Debug.Log(health);
 
         // kill enemy
         if (health <= 0)

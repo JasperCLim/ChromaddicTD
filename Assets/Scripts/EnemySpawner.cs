@@ -5,6 +5,7 @@ using UnityEngine.AI;
 using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using System.Linq;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -14,14 +15,18 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private float timeBetweenWaves; // implement later
     [SerializeField] private GameManager gameManager;
 
-    private List<GameObject> currentWave = new List<GameObject>();
-    private List<GameObject> nextWave = new List<GameObject>();
+    private List<GameObject> currentWave = new();
+    private List<GameObject> nextWave = new();
 
     private GameObject AddEnemyToWave()
     {
         GameObject newEnemy;
         int enemyIndex = UnityEngine.Random.Range(0,enemyList.Length-1);
         newEnemy = enemyList[enemyIndex];
+        int startChar = newEnemy.name.IndexOf("(");
+        int endChar = newEnemy.name.IndexOf(")");
+        string newEnemyName = newEnemy.name.Substring(startChar,endChar - startChar +1);
+        newEnemy.name = newEnemyName;
         return newEnemy;
     }
 
@@ -29,14 +34,25 @@ public class EnemySpawner : MonoBehaviour
     {
         //UnityEngine.Debug.Log("spawning");
         currentWave = nextWave;
-        List<GameObject> newNextWave = new List<GameObject>();
+        List<GameObject> newNextWave = new();
         for (int i=0; i<round+1;i++)
         {
             newNextWave.Add(AddEnemyToWave());
         }
         nextWave = newNextWave;
-        string currentWaveString = string.Join(", ", currentWave);
-        string nextWaveString = string.Join(", ", nextWave);
+        string currentWaveString = "";
+        foreach(GameObject enem in currentWave)
+        {
+            currentWaveString += enem.name;
+        }
+        
+        string nextWaveString = "";
+        foreach(GameObject enem in nextWave)
+        {
+            nextWaveString += enem.name;
+        }
+        //string currentWaveString = string.Join(", ", currentWave);
+        //string nextWaveString = string.Join(", ", nextWave);
         UnityEngine.Debug.Log("Round:" + round);
         UnityEngine.Debug.Log("Current Wave:" + currentWaveString);
         UnityEngine.Debug.Log("Next Wave:" + nextWaveString);
@@ -50,7 +66,8 @@ public class EnemySpawner : MonoBehaviour
         {
 
             GameObject newEnemy = Instantiate(currentWave[i],this.transform.position,Quaternion.identity);
-            UnityEngine.Debug.Log("Spawned enemy: " + newEnemy);
+
+            UnityEngine.Debug.Log("Spawned enemy: " + newEnemy.name);
             yield return new WaitForSeconds(1f);
         }
     }
