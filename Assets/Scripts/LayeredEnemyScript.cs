@@ -32,6 +32,10 @@ public class LayeredEnemyScript : MonoBehaviour
 
     }
 
+    public List<GameObject> getLayers() {
+        return enemyList;
+    }
+
     public void Die()
     {
         Object.Destroy(this.gameObject);

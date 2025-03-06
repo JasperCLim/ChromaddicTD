@@ -186,6 +186,13 @@ public class EnemyScript : MonoBehaviour
         towersAttackingMe.Remove(attackingTower);
     }
 
+    public void Spawn(string col, float healthScale, float moveScale)
+    {
+        enemyColor = col;
+        health = health + healthScale;
+        maxHealth = maxHealth + healthScale;
+        moveSpeed = moveSpeed + moveScale;
+    }
     void Awake()
 
     // When the enemy spawns, find the Map object and store a reference to the MapScript. This is necessary to find the path tiles
