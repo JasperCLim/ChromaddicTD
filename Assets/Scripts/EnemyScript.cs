@@ -189,6 +189,13 @@ public class EnemyScript : MonoBehaviour
         towersAttackingMe.Remove(attackingTower);
     }
 
+    public void Spawn(string col, float healthScale, float moveScale)
+    {
+        enemyColor = col;
+        health = health + healthScale;
+        maxHealth = maxHealth + healthScale;
+        moveSpeed = moveSpeed + moveScale;
+    }
     void Awake()
 
     // When the enemy spawns, find the Map object and store a reference to the MapScript. This is necessary to find the path tiles
@@ -216,6 +223,18 @@ public class EnemyScript : MonoBehaviour
                 break;
                 case "red":
                 my_color = new Color(1,0,0);
+                break;
+                case "white":
+                my_color = new Color(1,1,1);
+                break;
+                case "yellow":
+                my_color = new Color(1,1,0);
+                break;
+                case "cyan":
+                my_color = new Color(0,1,1);
+                break;
+                case "magenta":
+                my_color = new Color(1,0,1);
                 break;
             }
         my_sprite.color = my_color;
