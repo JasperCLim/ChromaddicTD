@@ -1,21 +1,24 @@
 using System.Collections;
-using System.Diagnostics;
 using UnityEngine;
-using UnityEngine.AI;
-using System;
 
 public class EnemySpawner : MonoBehaviour
 {
-
     [SerializeField] GameObject[] enemyList;
-    [SerializeField] int round;
-    [SerializeField] private float timeBetweenWaves; // implement later
-    [SerializeField] private GameManager gameManager;
-    private bool enemiesAlive;
+    [SerializeField] private int round = 1; // Start at round 1
+    [SerializeField] private float timeBetweenWaves;
+
+    private bool roundCompleted = false; // Start with round not completed
+    private EconomySystem economySystem;
+
+    // Add public getter for round
+    public int GetRound()
+    {
+        return round;
+    }
 
     private void SpawnEnemies()
     {
-        //UnityEngine.Debug.Log("spawning");
+        roundCompleted = false;
         StartCoroutine("ISpawnEnemies");
     }
 
@@ -23,36 +26,52 @@ public class EnemySpawner : MonoBehaviour
     {
         for (int i = 0; i < round; i++)
         {
-            int enemyIndex = UnityEngine.Random.Range(0,8); // sequential spawn, make random later
-
-            GameObject newEnemy = Instantiate(enemyList[enemyIndex],this.transform.position,Quaternion.identity);
+            int enemyIndex = UnityEngine.Random.Range(0, Mathf.Min(8, enemyList.Length));
+            GameObject newEnemy = Instantiate(enemyList[enemyIndex], transform.position, Quaternion.identity);
             yield return new WaitForSeconds(1f);
         }
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        // Find the economy system
+        economySystem = FindFirstObjectByType<EconomySystem>();
         
+        // Start spawning first round of enemies immediately
+        SpawnEnemies();
     }
 
-    // Update is called once per frame
     void Update()
     {
         GameObject[] enemyLeft = GameObject.FindGameObjectsWithTag("Enemy");
+        
         if (enemyLeft.Length > 0)
         {
-            // round in progress
+            // Round in progress
             return;
         }
-        else
+        else if (!roundCompleted)
         {
-            //round over, start a new one if the game hasn't ended
-            if (!gameManager.gameEnded)
+            // Round just completed
+            roundCompleted = true;
+            
+            // Award currency for completing the round
+            if (economySystem != null)
             {
-                round++;
-                SpawnEnemies();
+                int reward = economySystem.GetRoundReward();
+                economySystem.AddCurrency(reward);
+                Debug.Log($"Round {round} completed! Awarded {reward} gold.");
             }
+            
+            // Wait for the next round
+            StartCoroutine(StartNextRound());
         }
+    }
+    
+    IEnumerator StartNextRound()
+    {
+        yield return new WaitForSeconds(timeBetweenWaves);
+        round++;
+        SpawnEnemies();
     }
 }
