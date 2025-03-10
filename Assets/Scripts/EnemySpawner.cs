@@ -27,17 +27,6 @@ public class EnemySpawner : MonoBehaviour
     }
 
 
-    List<List<Tuple<int, string[]>>> uniqueWaves = new()
-    {
-        new List<Tuple<int, string[]>> // Wave 1: RGY, RGY, RGY, RGY, B, B
-        {
-            Tuple.Create(1, new[] { "red", "green", "yellow" }),   //< # of enemies, {layercolour1, layercolour2, etc} >
-            Tuple.Create(1, new[] { "blue" })
-        }
-    };
-
-/*
-
 
     List<List<Tuple<int, string[]>>> uniqueWaves = new List<List<Tuple<int, string[]>>>
     {
@@ -56,7 +45,7 @@ public class EnemySpawner : MonoBehaviour
             Tuple.Create(2, new[] { "magenta", "yellow", "blue" })
         }
     };
-*/
+
 
     private void SpawnEnemiesPreset()
     {
