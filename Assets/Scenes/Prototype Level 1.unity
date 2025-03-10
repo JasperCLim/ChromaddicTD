@@ -2260,17 +2260,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyList:
-  - {fileID: 6565540714419359452, guid: ff8bbe77c9131074a80411a082243fff, type: 3}
-  - {fileID: 6565540714419359452, guid: 08d43ac34c47b456186b937c22f95349, type: 3}
-  - {fileID: 6565540714419359452, guid: 36d7d95c492043c4f884719719532077, type: 3}
-  - {fileID: 3112111799058956775, guid: 9d97a2c90b7feff42b7b9ebbfc8d3928, type: 3}
-  - {fileID: 3112111799058956775, guid: fa1742a50e8c07a45b7f804a4b0a5b48, type: 3}
-  - {fileID: 3112111799058956775, guid: d8056e0029c49c0439ac6f3d3d536590, type: 3}
-  - {fileID: 3112111799058956775, guid: 5ac6e354c6e6f9d4abb7e55a97b2eaad, type: 3}
-  - {fileID: 3112111799058956775, guid: 18d0eedec3d04c04fb2a5261c1340fff, type: 3}
-  - {fileID: 3112111799058956775, guid: e658e0ecb6de13e4bbbd7af78bfbbebf, type: 3}
+  - {fileID: 8672404844340771091, guid: db732a9d184c0b8458aeb45b62294ac6, type: 3}
+  - {fileID: 2979012933950117832, guid: 72ad47b585475c8419db9e3f32e783a3, type: 3}
+  - {fileID: 4073518630874123348, guid: d96233be03863b24ca92b4d235d2c30c, type: 3}
   round: 1
   timeBetweenWaves: 0
+  healthScaling: 0
+  moveScaling: 1
 --- !u!4 &115677161
 Transform:
   m_ObjectHideFlags: 0
