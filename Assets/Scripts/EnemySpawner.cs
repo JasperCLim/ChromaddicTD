@@ -1,18 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
+using System;
 
 public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] GameObject[] enemyList;
     [SerializeField] private int round = 1;
     [SerializeField] private float timeBetweenWaves;
-
-    private EconomySystem economySystem;
-
     [SerializeField] private float healthScaling;
     [SerializeField] private float moveScaling;
+
+    private EconomySystem economySystem;
+    private bool firstRound = true;
     List<Tuple<int, string[]>> spawnQueue = new List<Tuple<int, string[]>>();
     
     private bool enemiesAlive;
@@ -149,9 +149,6 @@ public class EnemySpawner : MonoBehaviour
     {
         // Find the economy system
         economySystem = FindFirstObjectByType<EconomySystem>();
-        
-        // Start spawning first round of enemies immediately
-        SpawnEnemies();
     }
 
     void Update()
@@ -164,16 +161,23 @@ public class EnemySpawner : MonoBehaviour
         }
         else
         {
-            // Award currency for completing the round
-            if (economySystem != null)
+            if (firstRound)
             {
-                int reward = economySystem.GetRoundReward();
-                economySystem.AddCurrency(reward);
-                Debug.Log($"Round {round} completed! Awarded {reward} gold.");
+                firstRound = false;
             }
-            
-            //round over, start a new one
-            round++;
+            else
+            {
+                // Award currency for completing the round
+                if (economySystem != null)
+                {
+                    int reward = economySystem.GetRoundReward();
+                    economySystem.AddCurrency(reward);
+                    Debug.Log($"Round {round} completed! Awarded {reward} gold.");
+                }
+                
+                //round over, start a new one
+                round++;
+            }
             StartCoroutine("restTime");
         }
     }

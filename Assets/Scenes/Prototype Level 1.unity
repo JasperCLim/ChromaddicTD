@@ -2266,7 +2266,7 @@ MonoBehaviour:
   round: 1
   timeBetweenWaves: 0
   healthScaling: 0
-  moveScaling: 15
+  moveScaling: 1
 --- !u!4 &115677161
 Transform:
   m_ObjectHideFlags: 0
@@ -13080,7 +13080,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5008da05e2bd4db1b0f93844b2a6cce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  livesText: {fileID: 0}
+  livesText: {fileID: 538890250}
 --- !u!1001 &544441374
 PrefabInstance:
   m_ObjectHideFlags: 0
