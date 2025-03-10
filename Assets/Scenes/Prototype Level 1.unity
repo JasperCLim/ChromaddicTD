@@ -241,6 +241,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameEnded: 0
   gameOverMenu: {fileID: 2127746074}
+  backgroundMusic: {fileID: 732345084}
 --- !u!1001 &19511420
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2267,6 +2268,7 @@ MonoBehaviour:
   timeBetweenWaves: 0
   healthScaling: 0
   moveScaling: 1
+  gm: {fileID: 6847124}
 --- !u!4 &115677161
 Transform:
   m_ObjectHideFlags: 0
@@ -17825,7 +17827,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 0.5
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0

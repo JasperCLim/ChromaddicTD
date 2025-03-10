@@ -687,7 +687,7 @@ MonoBehaviour:
   maxHealth: 12
   healthBar: {fileID: 0}
   enemyColor: cyan
-  priority: 2
+  priority: 3
   attackTowerColorMix: {r: 0, g: 0, b: 0, a: 0}
 --- !u!58 &6184383684523735414
 CircleCollider2D:
@@ -1440,7 +1440,7 @@ MonoBehaviour:
   maxHealth: 12
   healthBar: {fileID: 0}
   enemyColor: green
-  priority: 1
+  priority: 2
   attackTowerColorMix: {r: 0, g: 0, b: 0, a: 0}
 --- !u!58 &1581475768197853978
 CircleCollider2D:

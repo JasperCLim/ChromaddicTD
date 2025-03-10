@@ -45,13 +45,8 @@ public class EnemyScript : MonoBehaviour
             {
                 if (targetTile == ms.endTile) // end of path, destroy enemy
                 {
-                    LayeredEnemyScript les = GetComponentInParent<LayeredEnemyScript>();
-                    if (les)
-                    {
-                        les.RemoveEnemy(this.gameObject); // remove the enemy from the layered enemy list of contents
-                    }
+                    LowerPriorityOfAllEnemies(); // handling for layered enemies
                     
-                    //Destroy(transform.gameObject);
                     EndPath();
                     Debug.Log("Enemy reached end of path. Lose a life");
                 }
@@ -87,18 +82,17 @@ public class EnemyScript : MonoBehaviour
         return 0;
     }
 
-    // When an enemy of priority 1 dies, move all the other priorities down by 1
     private void LowerPriorityOfAllEnemies()
+    // Checks to see if the enemy is part of a layered enemy. If so, remove from parent object list and decrease priority of other layers
     {
-        EnemyScript[] allEnemies = FindObjectsByType<EnemyScript>(FindObjectsSortMode.None);
 
-        foreach (EnemyScript enemy in allEnemies)
+        LayeredEnemyScript les = GetComponentInParent<LayeredEnemyScript>();
+        if(les)
         {
-            if (enemy.GetPriority() > 1)
-            {
-                enemy.DecreasePriority();
-            }
+            les.RemoveEnemy(this.gameObject); // remove this enemy from the parent object list of children
+            les.DecreaseEachPriority(); // lower priority of other layers
         }
+        
     }
 
 
@@ -125,26 +119,26 @@ public class EnemyScript : MonoBehaviour
         {
             // add the new tower to the mix of attacking towers
         
-        if (attackingColor.r == 1)
-        {
-            attackTowerColorMix.r = 1;
-        }
-        if (attackingColor.g == 1)
-        {
-            attackTowerColorMix.g = 1;
-        }
-        if (attackingColor.b == 1)
-        {
-            attackTowerColorMix.b = 1;
-        }
-        if (attackingColor.a == 1)
-        {
-            attackTowerColorMix.a = 1;
-        }
-        towersAttackingMe.Add(attackingTower);
+            if (attackingColor.r == 1)
+            {
+                attackTowerColorMix.r = 1;
+            }
+            if (attackingColor.g == 1)
+            {
+                attackTowerColorMix.g = 1;
+            }
+            if (attackingColor.b == 1)
+            {
+                attackTowerColorMix.b = 1;
+            }
+            if (attackingColor.a == 1)
+            {
+                attackTowerColorMix.a = 1;
+            }
+            towersAttackingMe.Add(attackingTower);
         }
 
-        Debug.Log(my_color + " attacked by: " + attackTowerColorMix);
+        Debug.Log(this.name + " " + my_color + " attacked by: " + attackTowerColorMix + " priority " + priority);
 
         if (attackTowerColorMix == my_color)
         {
@@ -157,33 +151,18 @@ public class EnemyScript : MonoBehaviour
         // kill enemy
         if (health <= 0)
         {
-            LayeredEnemyScript les = GetComponentInParent<LayeredEnemyScript>();
-            if (les)
-            {
-                les.RemoveEnemy(this.gameObject);
-            }
-
-
-            if (priority == 1)
-            {
-                
-                if (les)
-                {
-                    les.DecreaseEachPriority();
-                }
-                
-            }
+            LowerPriorityOfAllEnemies(); // see if this enemy is part of a layered enemy
             Object.Destroy(this.gameObject);
         }
 
-        StartCoroutine(ResetColor(attackingTower));
+        StartCoroutine(ResetColor(attackingTower)); // after 1 second, reset colors and towers attacking this enemy
         
     }
 
 
     IEnumerator ResetColor(GameObject attackingTower)
     {
-        //yield on a new YieldInstruction that waits for 1 seconds.
+        // after 1 second, reset colors and towers attacking this enemy
         yield return new WaitForSeconds(1);
         attackTowerColorMix = new Color(0,0,0,0);
         towersAttackingMe.Remove(attackingTower);
@@ -192,6 +171,7 @@ public class EnemyScript : MonoBehaviour
     public void Spawn(string col, float healthScale, float moveScale)
     {
         enemyColor = col;
+        SetMyColor();
         health = health + healthScale;
         maxHealth = maxHealth + healthScale;
         moveSpeed = moveSpeed + moveScale;
@@ -206,11 +186,8 @@ public class EnemyScript : MonoBehaviour
         healthBar = GetComponentInChildren<FloatingHealthBar>(); // get the health bar component
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void SetMyColor()
     {
-        healthBar.UpdateHealthBar(health, maxHealth); // enemy starts with full health
-        targetTile = ms.pathTiles[0]; // set the initial target to the first tile in the path
         SpriteRenderer my_sprite = GetComponent<SpriteRenderer>();
 
         switch(enemyColor)
@@ -238,6 +215,14 @@ public class EnemyScript : MonoBehaviour
                 break;
             }
         my_sprite.color = my_color;
+    }
+
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        healthBar.UpdateHealthBar(health, maxHealth); // enemy starts with full health
+        targetTile = ms.pathTiles[0]; // set the initial target to the first tile in the path
+        SetMyColor();
     }
 
     // Update is called once per frame

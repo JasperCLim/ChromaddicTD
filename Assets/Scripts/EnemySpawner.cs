@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Unity.VisualScripting;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -11,7 +12,8 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private float healthScaling; //linear * round. if base health is 5, on round 3 it will be 5 + 3 * healthScaling
     [SerializeField] private float moveScaling; // ditto
 
-    private EconomySystem economySystem;
+    private EconomySystem economySystem; // reference the Economy object
+    public GameManager gm; // reference the Game Manager object
     private bool firstRound = true;
     List<Tuple<int, string[]>> spawnQueue = new List<Tuple<int, string[]>>(); //< # of enemies, {layercolour1, layercolour2, etc} >
                                                                                 // -1 enemies to skip wave and generate randomly
@@ -24,23 +26,37 @@ public class EnemySpawner : MonoBehaviour
         return round;
     }
 
-    List<List<Tuple<int, string[]>>> uniqueWaves = new List<List<Tuple<int, string[]>>>
+
+    List<List<Tuple<int, string[]>>> uniqueWaves = new()
+    {
+        new List<Tuple<int, string[]>> // Wave 1: RGY, RGY, RGY, RGY, B, B
         {
-            new List<Tuple<int, string[]>> // Wave 1
-            {
-                Tuple.Create(4, new[] { "red", "green", "yellow" }),   //< # of enemies, {layercolour1, layercolour2, etc} >
-                Tuple.Create(2, new[] { "blue" })
-            },
-            new List<Tuple<int, string[]>> // Wave 2
-            {
-                Tuple.Create(-1, new[] { "white" }),
-            },
-            new List<Tuple<int, string[]>> // Wave 3
-            {
-                Tuple.Create(3, new[] { "cyan" }),
-                Tuple.Create(2, new[] { "magenta", "yellow", "blue" })
-            }
-        };
+            Tuple.Create(1, new[] { "red", "green", "yellow" }),   //< # of enemies, {layercolour1, layercolour2, etc} >
+            Tuple.Create(1, new[] { "blue" })
+        }
+    };
+
+/*
+
+
+    List<List<Tuple<int, string[]>>> uniqueWaves = new List<List<Tuple<int, string[]>>>
+    {
+        new List<Tuple<int, string[]>> // Wave 1: RGY, RGY, RGY, RGY, B, B
+        {
+            Tuple.Create(4, new[] { "red", "green", "yellow" }),   //< # of enemies, {layercolour1, layercolour2, etc} >
+            Tuple.Create(2, new[] { "blue" })
+        },
+        new List<Tuple<int, string[]>> // Wave 2: call the randon enemy spawner
+        {
+            Tuple.Create(-1, new[] { "white" }),
+        },
+        new List<Tuple<int, string[]>> // Wave 3: C, C, C, MYB, MYB
+        {
+            Tuple.Create(3, new[] { "cyan" }),
+            Tuple.Create(2, new[] { "magenta", "yellow", "blue" })
+        }
+    };
+*/
 
     private void SpawnEnemiesPreset()
     {
@@ -79,13 +95,17 @@ public class EnemySpawner : MonoBehaviour
             int layers = spawnQueue[i].Item2.Length;
 
             for (int j = 0; j < spawnQueue[i].Item1; j++) { // For all enemies in wave
+
                 GameObject newEnemy = Instantiate(enemyList[layers-1],this.transform.position,Quaternion.identity);
-                if (layers == 1) {
+
+                if (layers == 1) // single layer enemy
+                {
                     newEnemy.GetComponent<EnemyScript>().Spawn(spawnQueue[i].Item2[0], healthScaling*(round-1), moveScaling*(round-1));
                 }
-                else {
+                else // multi layer enemy
+                {
                     List<GameObject> layerind = newEnemy.GetComponent<LayeredEnemyScript>().getLayers();
-                    for (int k = 0; k < layers; k++) { //Layer
+                    for (int k = 0; k < layers; k++) { // For each layer
                         layerind[k].GetComponent<EnemyScript>().Spawn(spawnQueue[i].Item2[k], healthScaling*(round-1), moveScaling*(round-1));
                     }
                 }
@@ -100,15 +120,17 @@ public class EnemySpawner : MonoBehaviour
         spawnQueue.Clear();
         for (int i = 0; i < round+1; i++) //spawn # enemies = to round+1
         {
-            int enemyIndex = UnityEngine.Random.Range(0,3); //this is upper bounds exclusive?!?!?!
-            string[] colorList = new string[enemyIndex+1];
+            // determine how many layers each enemy will have (1-3)
+            int enemyIndex = UnityEngine.Random.Range(0,3); //Random.Range is upper bounds exclusive
+            string[] colorList = new string[enemyIndex+1]; // string array to hold list of colored layers
             for (int j = 0; j <= enemyIndex; j++) {
-                colorList[j] = colors[UnityEngine.Random.Range(0,7)];
+                colorList[j] = colors[UnityEngine.Random.Range(0,7)]; // pick a random color for each layer
             }
-            spawnQueue.Add(Tuple.Create(1, colorList));
+            spawnQueue.Add(Tuple.Create(1, colorList)); // add the tuple representing the enemy to the spawn queue
         }
         StartCoroutine(ISpawnEnemies());
     }
+
     IEnumerator restTime()
     {
         resting = true;
@@ -143,6 +165,10 @@ public class EnemySpawner : MonoBehaviour
 
     void Update()
     {
+        if (gm.gameEnded)
+        {
+            return;
+        }
         GameObject[] enemyLeft = GameObject.FindGameObjectsWithTag("Enemy");
         if (enemyLeft.Length > 0 | resting is true)
         {

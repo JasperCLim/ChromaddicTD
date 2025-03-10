@@ -5,6 +5,7 @@ public class GameManager : MonoBehaviour
 {
     public bool gameEnded = false;
     public CanvasGroup gameOverMenu;
+    [SerializeField] private AudioSource backgroundMusic;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -43,7 +44,7 @@ public class GameManager : MonoBehaviour
         // display the game over menu and make it interactable
         gameOverMenu.alpha = 1;
         gameOverMenu.interactable = true;
-
+        backgroundMusic.Stop();
         Debug.Log("Game Over!");
     }
 }
