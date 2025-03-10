@@ -8,12 +8,13 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] GameObject[] enemyList;
     [SerializeField] private int round = 1;
     [SerializeField] private float timeBetweenWaves;
-    [SerializeField] private float healthScaling;
-    [SerializeField] private float moveScaling;
+    [SerializeField] private float healthScaling; //linear * round. if base health is 5, on round 3 it will be 5 + 3 * healthScaling
+    [SerializeField] private float moveScaling; // ditto
 
     private EconomySystem economySystem;
     private bool firstRound = true;
-    List<Tuple<int, string[]>> spawnQueue = new List<Tuple<int, string[]>>();
+    List<Tuple<int, string[]>> spawnQueue = new List<Tuple<int, string[]>>(); //< # of enemies, {layercolour1, layercolour2, etc} >
+                                                                                // -1 enemies to skip wave and generate randomly
     
     private bool enemiesAlive;
     private bool resting;
@@ -54,10 +55,10 @@ public class EnemySpawner : MonoBehaviour
         {
             int layersp = uniqueWaves[round-1][i].Item2.Length;
             
-            for (int j = 0; j < uniqueWaves[round-1][i].Item1; j++) { // For all enemies in wave
-                GameObject newEnemy = Instantiate(enemyList[layersp-1],this.transform.position,Quaternion.identity);
+            for (int j = 0; j < uniqueWaves[round-1][i].Item1; j++) { // For all enemies in type
+                GameObject newEnemy = Instantiate(enemyList[layersp-1],this.transform.position,Quaternion.identity); //create enemy
                 if (layersp == 1) {
-                    newEnemy.GetComponent<EnemyScript>().Spawn(uniqueWaves[round-1][i].Item2[0], healthScaling*(round-1), moveScaling*(round-1));
+                    newEnemy.GetComponent<EnemyScript>().Spawn(uniqueWaves[round-1][i].Item2[0], healthScaling*(round-1), moveScaling*(round-1)); //set move/health scaling
                 }
                 else {
                     List<GameObject> layerind = newEnemy.GetComponent<LayeredEnemyScript>().getLayers();
@@ -105,27 +106,16 @@ public class EnemySpawner : MonoBehaviour
                 colorList[j] = colors[UnityEngine.Random.Range(0,7)];
             }
             spawnQueue.Add(Tuple.Create(1, colorList));
-        //     GameObject newEnemy = Instantiate(enemyList[enemyIndex],this.transform.position,Quaternion.identity);
-        //         if (enemyIndex == 0) {
-        //             newEnemy.GetComponent<EnemyScript>().Spawn(colors[UnityEngine.Random.Range(0,7)], healthScaling*(round-1), moveScaling*(round-1));
-        //         }
-        //         else {
-        //             List<GameObject> layerind = newEnemy.GetComponent<LayeredEnemyScript>().getLayers();
-        //             for (int k = 0; k < enemyIndex+1; k++) {
-        //                 layerind[k].GetComponent<EnemyScript>().Spawn(colors[UnityEngine.Random.Range(0,7)], healthScaling*(round-1), moveScaling*(round-1));
-        //             }
-        //         }    
-            //yield return new WaitForSeconds(1f);
         }
         StartCoroutine(ISpawnEnemies());
     }
     IEnumerator restTime()
     {
         resting = true;
-        yield return new WaitForSeconds(timeBetweenWaves);
+        yield return new WaitForSeconds(timeBetweenWaves); 
         resting = false;
-        if (round <= uniqueWaves.Count) {
-            if (uniqueWaves[round-1][0].Item1==-1) {
+        if (round <= uniqueWaves.Count) { //if there are still preset waves not done
+            if (uniqueWaves[round-1][0].Item1==-1) { //if preset is skipped
                 SpawnEnemiesRand();
             }
             else {
