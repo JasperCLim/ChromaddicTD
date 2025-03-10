@@ -2,15 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
-using UnityEngine.AI;
-using System;
 
 public class EnemySpawner : MonoBehaviour
 {
-
     [SerializeField] GameObject[] enemyList;
-    [SerializeField] int round;
+    [SerializeField] private int round = 1;
     [SerializeField] private float timeBetweenWaves;
+
+    private EconomySystem economySystem;
 
     [SerializeField] private float healthScaling;
     [SerializeField] private float moveScaling;
@@ -19,8 +18,11 @@ public class EnemySpawner : MonoBehaviour
     private bool enemiesAlive;
     private bool resting;
 
+    public int GetRound()
+    {
+        return round;
+    }
 
-    
     List<List<Tuple<int, string[]>>> uniqueWaves = new List<List<Tuple<int, string[]>>>
         {
             new List<Tuple<int, string[]>> // Wave 1
@@ -145,10 +147,13 @@ public class EnemySpawner : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        // Find the economy system
+        economySystem = FindFirstObjectByType<EconomySystem>();
         
+        // Start spawning first round of enemies immediately
+        SpawnEnemies();
     }
 
-    // Update is called once per frame
     void Update()
     {
         GameObject[] enemyLeft = GameObject.FindGameObjectsWithTag("Enemy");
@@ -159,6 +164,14 @@ public class EnemySpawner : MonoBehaviour
         }
         else
         {
+            // Award currency for completing the round
+            if (economySystem != null)
+            {
+                int reward = economySystem.GetRoundReward();
+                economySystem.AddCurrency(reward);
+                Debug.Log($"Round {round} completed! Awarded {reward} gold.");
+            }
+            
             //round over, start a new one
             round++;
             StartCoroutine("restTime");

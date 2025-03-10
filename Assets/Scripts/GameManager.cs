@@ -1,8 +1,10 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    private bool gameEnded = false;
+    public bool gameEnded = false;
+    public CanvasGroup gameOverMenu;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -23,9 +25,25 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // restart the game
+    public void RestartGame()
+    {
+        SceneManager.LoadSceneAsync(1);
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+
     // end the game
     void EndGame() {
         gameEnded = true;
+
+        // display the game over menu and make it interactable
+        gameOverMenu.alpha = 1;
+        gameOverMenu.interactable = true;
+
         Debug.Log("Game Over!");
     }
 }
