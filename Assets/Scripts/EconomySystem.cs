@@ -34,26 +34,24 @@ public class EconomySystem : MonoBehaviour
     }
     
     // Check if player can afford a tower
-    public bool CanAffordTower(int towerIndex)
+    public bool CanAffordTower()
     {
-        int cost = GetTowerCost(towerIndex);
+        int cost = GetTowerCost();
         return currentCurrency >= cost;
     }
     
     // Get tower cost
-    public int GetTowerCost(int towerIndex)
+    public int GetTowerCost()
     {
         return towerCost;
     }
     
     // Purchase a tower if possible
-    public bool PurchaseTower(int towerIndex)
+    public bool PurchaseTower()
     {
-        int cost = GetTowerCost(towerIndex);
-        
-        if (currentCurrency >= cost)
+        if (CanAffordTower())
         {
-            currentCurrency -= cost;
+            currentCurrency -= GetTowerCost();
             UpdateCurrencyDisplay();
             return true;
         }
@@ -82,10 +80,4 @@ public class EconomySystem : MonoBehaviour
         // Fixed 200 gold reward per round
         return 200;
     }
-    
-    // Extra money for killing enemies
-    // public void RewardForKill(string enemyColor)
-    // {
-    //     return;
-    // }
 }
