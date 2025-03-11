@@ -26,8 +26,29 @@ public class EnemySpawner : MonoBehaviour
         return round;
     }
 
+    List<List<Tuple<int, string[]>>> uniqueWaves = new()
+    {
+        new List<Tuple<int, string[]>> // Wave 1: R, B, G, R, B, G
+        {
+            Tuple.Create(1, new[] { "red" }),   //< # of enemies, {layercolour1, layercolour2, etc} >
+            Tuple.Create(1, new[] { "blue" }),
+            Tuple.Create(1, new[] { "green" }),   //< # of enemies, {layercolour1, layercolour2, etc} >
+            Tuple.Create(1, new[] { "red" }),   //< # of enemies, {layercolour1, layercolour2, etc} >
+            Tuple.Create(1, new[] { "blue" }),
+            Tuple.Create(1, new[] { "green" }),   //< # of enemies, {layercolour1, layercolour2, etc} >
+        },
+        new List<Tuple<int, string[]>> // Wave 2: call the randon enemy spawner
+        {
+            Tuple.Create(-1, new[] { "white" }),
+        },
+        new List<Tuple<int, string[]>> // Wave 3: C, C, C, MYB, MYB
+        {
+            Tuple.Create(3, new[] { "cyan" }),
+            Tuple.Create(2, new[] { "magenta", "yellow", "blue" })
+        }
+    };
 
-
+/*
     List<List<Tuple<int, string[]>>> uniqueWaves = new List<List<Tuple<int, string[]>>>
     {
         new List<Tuple<int, string[]>> // Wave 1: RGY, RGY, RGY, RGY, B, B
@@ -45,7 +66,7 @@ public class EnemySpawner : MonoBehaviour
             Tuple.Create(2, new[] { "magenta", "yellow", "blue" })
         }
     };
-
+*/
 
     private void SpawnEnemiesPreset()
     {

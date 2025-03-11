@@ -47,10 +47,12 @@ public class TowerPlacement : MonoBehaviour
 
         Vector2 mousePosition = GetMouseLocation();
 
-        RaycastHit2D tower = Physics2D.Raycast(mousePosition,new Vector2(0,0), 0.1f, towerMask,-100,100);
+        RaycastHit2D towerVsMouse = Physics2D.Raycast(mousePosition,new Vector2(0,0), 0.1f, towerMask,-100,100);
+        RaycastHit2D towerVsPreview = Physics2D.Raycast(previewTower.transform.position,new Vector2(0,0), 0.1f, towerMask,-100,100);
 
-        if (tower.collider != null)
+        if (towerVsMouse.collider || towerVsPreview.collider)
         {
+            // do not place tower
             Debug.Log("Tower already here");
             towerExists = true;
         }
@@ -102,6 +104,17 @@ public class TowerPlacement : MonoBehaviour
         {
             Destroy(previewTower.GetComponent<TowerScript>()); // make sure TowerScript doesn't run during preview placement
         }
+
+
+        // Make preview semi-transparent
+        SpriteRenderer renderer = previewTower.GetComponent<SpriteRenderer>();
+ 
+        if (renderer != null)
+        {
+            Color color = renderer.color;
+            color.a = 0.3f; // 30% transparency
+            renderer.color = color;
+        }
     }
 
     void Start()
@@ -127,15 +140,17 @@ public class TowerPlacement : MonoBehaviour
                 {
                     previewTower.transform.position = hoverTile.transform.position;
                 }
-                if (Input.GetButtonDown("Fire1"))
+
+                if (Input.GetButtonDown("Fire1")) // left click to place tower
                 {
-
-                    {
-                        //Debug.Log("Place Tower");
-                        PlaceTower();
-                    }
-
+                    PlaceTower();
                 }
+ 
+                if (Input.GetButtonDown("Fire2") || Input.GetKeyDown(KeyCode.Escape)) // Right click or Escape to cancel
+                 {
+                     isBuilding = false;
+                     Destroy(previewTower);
+                 }
             }
         } 
         else // not current building, look for input to start building

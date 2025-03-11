@@ -54,6 +54,11 @@ public class TowerScript : MonoBehaviour
     
     }
 
+    public float returnFireRate()
+    {
+        return fireRate;
+    }
+
     private void FindNearbyEnemies()
     {
         RaycastHit2D[] nearbyEnemies = Physics2D.CircleCastAll(transform.position, targetingRange, (Vector2)transform.position, 0f, enemyMask);
@@ -67,17 +72,16 @@ public class TowerScript : MonoBehaviour
             if (enemy != null && enemy.GetPriority() == 1)
             {
                 targetEnemy = enemy;
-                break;
+                // Damage the enemy with priority 1 if it was hit by a tower of the same colour
+                GameObject myself = transform.gameObject;
+                targetEnemy.Die(damage, my_color, myself);
+                //break;
             }
         }
 
-        // Damage the enemy with priority 1 if it was hit by a tower of the same colour
+        // Make noise when attacking an enemy
         if (targetEnemy != null)
         {
-
-            GameObject myself = transform.gameObject;
-
-            targetEnemy.Die(damage, my_color, myself);
             audioSource.Play();
         }
     }

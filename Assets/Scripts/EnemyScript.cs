@@ -15,7 +15,7 @@ public class EnemyScript : MonoBehaviour
     [SerializeField] private string enemyColor; // Enemy Colour
     [SerializeField] private int priority; // Enemy hit priority
 
-    private Color my_color = new Color(0,0,0);
+    private Color my_color;
     private GameObject targetTile; // Current target for the enemy
     private MapScript ms; // Variable to hold the MapScript.cs reference
 
@@ -117,8 +117,7 @@ public class EnemyScript : MonoBehaviour
         } 
         else
         {
-            // add the new tower to the mix of attacking towers
-        
+            // add the attacking tower to the colors attacking this enemy
             if (attackingColor.r == 1)
             {
                 attackTowerColorMix.r = 1;
@@ -135,6 +134,7 @@ public class EnemyScript : MonoBehaviour
             {
                 attackTowerColorMix.a = 1;
             }
+            // add the new tower to the mix of attacking towers
             towersAttackingMe.Add(attackingTower);
         }
 
@@ -161,9 +161,15 @@ public class EnemyScript : MonoBehaviour
 
 
     IEnumerator ResetColor(GameObject attackingTower)
+    // need to change this code to avoid bugs. Call this in Update(), not as an IEnumerator. 
+    // foreach list of attacking towers 
+    //      check if the distance from enemy to tower is larger than tower range. 
+    //      If yes, reset color and remove attacking tower from list 
     {
-        // after 1 second, reset colors and towers attacking this enemy
-        yield return new WaitForSeconds(1);
+        // after 2x attacking tower fire rate, reset colors and towers attacking this enemy
+        TowerScript ts = attackingTower.GetComponent<TowerScript>();
+        float falloffTime = ts.returnFireRate() * 2;
+        yield return new WaitForSeconds(falloffTime);
         attackTowerColorMix = new Color(0,0,0,0);
         towersAttackingMe.Remove(attackingTower);
     }
@@ -181,6 +187,8 @@ public class EnemyScript : MonoBehaviour
     // When the enemy spawns, find the Map object and store a reference to the MapScript. This is necessary to find the path tiles
 
     {
+        my_color = new Color(0,0,0,0);
+        attackTowerColorMix = new Color(0,0,0,1);
         GameObject map = GameObject.FindWithTag("Map");
         ms = map.GetComponent<MapScript>();
         healthBar = GetComponentInChildren<FloatingHealthBar>(); // get the health bar component
