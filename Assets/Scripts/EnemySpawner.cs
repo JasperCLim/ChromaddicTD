@@ -32,20 +32,45 @@ public class EnemySpawner : MonoBehaviour
         {
             Tuple.Create(1, new[] { "red" }),   //< # of enemies, {layercolour1, layercolour2, etc} >
             Tuple.Create(1, new[] { "blue" }),
-            Tuple.Create(1, new[] { "green" }),   //< # of enemies, {layercolour1, layercolour2, etc} >
-            Tuple.Create(1, new[] { "red" }),   //< # of enemies, {layercolour1, layercolour2, etc} >
+            Tuple.Create(1, new[] { "green" }),   
+            Tuple.Create(1, new[] { "red" }),  
             Tuple.Create(1, new[] { "blue" }),
-            Tuple.Create(1, new[] { "green" }),   //< # of enemies, {layercolour1, layercolour2, etc} >
+            Tuple.Create(1, new[] { "green" }),   
         },
-        new List<Tuple<int, string[]>> // Wave 2: call the randon enemy spawner
+        new List<Tuple<int, string[]>> // Wave 2: first combo colours
         {
-            Tuple.Create(-1, new[] { "white" }),
+            Tuple.Create(2, new[] { "red" }),
+            Tuple.Create(2, new[] { "magenta" }),
+            Tuple.Create(2, new[] { "yellow" }),
         },
-        new List<Tuple<int, string[]>> // Wave 3: C, C, C, MYB, MYB
+        new List<Tuple<int, string[]>> // Wave 3: all test
         {
-            Tuple.Create(3, new[] { "cyan" }),
-            Tuple.Create(2, new[] { "magenta", "yellow", "blue" })
-        }
+            Tuple.Create(1, new[] { "red" }),  
+            Tuple.Create(1, new[] { "blue" }),
+            Tuple.Create(1, new[] { "green" }), 
+            Tuple.Create(1, new[] { "magenta" }),
+            Tuple.Create(1, new[] { "yellow" }),
+            Tuple.Create(1, new[] { "cyan" }),
+            Tuple.Create(1, new[] { "white" }),
+        },
+        new List<Tuple<int, string[]>> // Wave 4 two layers, simple colors
+        {
+            Tuple.Create(2, new[] { "red", "green" }),
+            Tuple.Create(2, new[] { "green", "blue" }),
+            Tuple.Create(2, new[] { "blue", "blue" }),
+        },
+        new List<Tuple<int, string[]>> // Wave 5 two layers, complex colors
+        {
+            Tuple.Create(2, new[] { "cyan", "green" }),
+            Tuple.Create(2, new[] { "yellow", "magenta" }),
+            Tuple.Create(2, new[] { "blue", "green" }),
+        },
+        new List<Tuple<int, string[]>> // Wave 6 two layers, with white
+        {
+            Tuple.Create(2, new[] { "yellow", "white" }),
+            Tuple.Create(2, new[] { "red", "magenta" }),
+            Tuple.Create(2, new[] { "white", "cyan" }),
+        },
     };
 
 /*
