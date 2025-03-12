@@ -19,18 +19,18 @@ public class EnemyScript : MonoBehaviour
     private GameObject targetTile; // Current target for the enemy
     private MapScript ms; // Variable to hold the MapScript.cs reference
 
-    private List<GameObject> towersAttackingMe = new List<GameObject>();
+    private List<GameObject> towersAttackingMe = new();
 
     public Color attackTowerColorMix;
 
-    private void moveEnemy()
+    private void MoveEnemy()
     // This script moves the enemy towards the target tile
  
     {
         transform.position = Vector3.MoveTowards(transform.position, targetTile.transform.position, moveSpeed * Time.deltaTime);
     }
 
-    private void checkTarget()
+    private void CheckTarget()
 
     // This script calculates the distance between the enemy and target
     // If it is at the target set the new target to the next tile along the path
@@ -155,11 +155,11 @@ public class EnemyScript : MonoBehaviour
             Object.Destroy(this.gameObject);
         }
 
-        StartCoroutine(ResetColor(attackingTower)); // after 1 second, reset colors and towers attacking this enemy
+        //StartCoroutine(ResetColor(attackingTower)); // after 1 second, reset colors and towers attacking this enemy
         
     }
 
-
+/*
     IEnumerator ResetColor(GameObject attackingTower)
     // need to change this code to avoid bugs. Call this in Update(), not as an IEnumerator. 
     // foreach list of attacking towers 
@@ -173,14 +173,34 @@ public class EnemyScript : MonoBehaviour
         attackTowerColorMix = new Color(0,0,0,0);
         towersAttackingMe.Remove(attackingTower);
     }
+*/
+
+    private void ResetColor()
+    {
+        //Debug.Log("towers " + towersAttackingMe.Count);
+        if (towersAttackingMe.Count > 0)
+        {
+            foreach (GameObject i in towersAttackingMe.ToArray())
+            {
+                TowerScript ts = i.GetComponent<TowerScript>();
+                //Debug.Log(Vector2.Distance(i.transform.position,this.transform.position) + " " + ts.getTowerRange());
+                if (Vector2.Distance(i.transform.position,this.transform.position) > ts.getTowerRange())
+                {
+                    attackTowerColorMix = new Color(0,0,0,0);
+                    towersAttackingMe.Clear();
+                }
+            }
+        }
+
+    }
 
     public void Spawn(string col, float healthScale, float moveScale)
     {
         enemyColor = col;
         SetMyColor();
-        health = health + healthScale;
-        maxHealth = maxHealth + healthScale;
-        moveSpeed = moveSpeed + moveScale;
+        health += healthScale;
+        maxHealth += healthScale;
+        moveSpeed += moveScale;
     }
     void Awake()
 
@@ -236,7 +256,8 @@ public class EnemyScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        checkTarget();
-        moveEnemy();
+        CheckTarget();
+        MoveEnemy();
+        ResetColor();
     }
 }

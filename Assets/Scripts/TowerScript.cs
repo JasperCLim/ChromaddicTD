@@ -19,6 +19,11 @@ public class TowerScript : MonoBehaviour
 
     private AudioSource audioSource;
 
+    public float getTowerRange()
+    {
+        return targetingRange;
+    }
+
     private void FindNearbyTiles()
     {
         RaycastHit2D[] nearbyTiles = Physics2D.CircleCastAll(transform.position, targetingRange, (Vector2)transform.position, 0f, renderMask);

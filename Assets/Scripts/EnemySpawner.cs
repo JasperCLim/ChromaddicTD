@@ -18,7 +18,6 @@ public class EnemySpawner : MonoBehaviour
     List<Tuple<int, string[]>> spawnQueue = new List<Tuple<int, string[]>>(); //< # of enemies, {layercolour1, layercolour2, etc} >
                                                                                 // -1 enemies to skip wave and generate randomly
     
-    private bool enemiesAlive;
     private bool resting;
 
     public int GetRound()
@@ -28,7 +27,7 @@ public class EnemySpawner : MonoBehaviour
 
     List<List<Tuple<int, string[]>>> uniqueWaves = new()
     {
-        new List<Tuple<int, string[]>> // Wave 1: R, B, G, R, B, G
+        new List<Tuple<int, string[]>> // Wave 1: simple colours: R, B, G, R, B, G
         {
             Tuple.Create(1, new[] { "red" }),   //< # of enemies, {layercolour1, layercolour2, etc} >
             Tuple.Create(1, new[] { "blue" }),
@@ -37,13 +36,13 @@ public class EnemySpawner : MonoBehaviour
             Tuple.Create(1, new[] { "blue" }),
             Tuple.Create(1, new[] { "green" }),   
         },
-        new List<Tuple<int, string[]>> // Wave 2: first combo colours
+        new List<Tuple<int, string[]>> // Wave 2: first combo colours: R, R, M, M, Y, Y
         {
             Tuple.Create(2, new[] { "red" }),
             Tuple.Create(2, new[] { "magenta" }),
             Tuple.Create(2, new[] { "yellow" }),
         },
-        new List<Tuple<int, string[]>> // Wave 3: all test
+        new List<Tuple<int, string[]>> // Wave 3: all colours: R, B, G, M, Y, C, W
         {
             Tuple.Create(1, new[] { "red" }),  
             Tuple.Create(1, new[] { "blue" }),
@@ -53,45 +52,43 @@ public class EnemySpawner : MonoBehaviour
             Tuple.Create(1, new[] { "cyan" }),
             Tuple.Create(1, new[] { "white" }),
         },
-        new List<Tuple<int, string[]>> // Wave 4 two layers, simple colors
+        new List<Tuple<int, string[]>> // Wave 4 two layers, simple colors: RG, RG, GB, GB, BB, BB
         {
             Tuple.Create(2, new[] { "red", "green" }),
             Tuple.Create(2, new[] { "green", "blue" }),
             Tuple.Create(2, new[] { "blue", "blue" }),
         },
-        new List<Tuple<int, string[]>> // Wave 5 two layers, complex colors
+        new List<Tuple<int, string[]>> // Wave 5 two layers, complex colors: CG, CG, YM, YM, BG, BG
         {
             Tuple.Create(2, new[] { "cyan", "green" }),
             Tuple.Create(2, new[] { "yellow", "magenta" }),
             Tuple.Create(2, new[] { "blue", "green" }),
         },
-        new List<Tuple<int, string[]>> // Wave 6 two layers, with white
+        new List<Tuple<int, string[]>> // Wave 6 two layers, with white: YW, YW, RM, RM, WC, WC
         {
             Tuple.Create(2, new[] { "yellow", "white" }),
             Tuple.Create(2, new[] { "red", "magenta" }),
             Tuple.Create(2, new[] { "white", "cyan" }),
         },
-    };
-
-/*
-    List<List<Tuple<int, string[]>>> uniqueWaves = new List<List<Tuple<int, string[]>>>
-    {
-        new List<Tuple<int, string[]>> // Wave 1: RGY, RGY, RGY, RGY, B, B
+        new List<Tuple<int, string[]>> // Wave 7 three layers, simple colours: RGB, BRB, GGR
         {
-            Tuple.Create(4, new[] { "red", "green", "yellow" }),   //< # of enemies, {layercolour1, layercolour2, etc} >
-            Tuple.Create(2, new[] { "blue" })
+            Tuple.Create(1, new[] { "red", "green", "blue" }),
+            Tuple.Create(1, new[] { "blue", "red", "blue" }),
+            Tuple.Create(1, new[] { "green", "green", "red" }),
         },
-        new List<Tuple<int, string[]>> // Wave 2: call the randon enemy spawner
+        new List<Tuple<int, string[]>> // Wave 8 three layers, complex colours: GCY, GCY, MYR, MYR, BGC. BGC
         {
-            Tuple.Create(-1, new[] { "white" }),
+            Tuple.Create(2, new[] { "green", "cyan", "yellow" }),
+            Tuple.Create(2, new[] { "magenta", "yellow", "red" }),
+            Tuple.Create(2, new[] { "blue", "green", "cyan" }),
         },
-        new List<Tuple<int, string[]>> // Wave 3: C, C, C, MYB, MYB
+                new List<Tuple<int, string[]>> // Wave 9 three layers, with white: YWY, YWY, BYB, BYB, WWR, WWR
         {
-            Tuple.Create(3, new[] { "cyan" }),
-            Tuple.Create(2, new[] { "magenta", "yellow", "blue" })
-        }
+            Tuple.Create(2, new[] { "yellow", "white", "yellow" }),
+            Tuple.Create(2, new[] { "blue", "yellow", "blue" }),
+            Tuple.Create(2, new[] { "white", "white", "red" }),
+        },        
     };
-*/
 
     private void SpawnEnemiesPreset()
     {
