@@ -181,8 +181,8 @@ SpriteRenderer:
   m_SortingLayerID: 2142846193
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: bd3bc9132727efc4eb5af42803d732dd, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Sprite: {fileID: -8174993748479713598, guid: 34d898121d68d4183ba154bcd24efd00, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -210,6 +210,7 @@ MonoBehaviour:
   healthBar: {fileID: 0}
   enemyColor: red
   priority: 1
+  attackTowerColorMix: {r: 0, g: 0, b: 0, a: 0}
 --- !u!58 &9140086468468665649
 CircleCollider2D:
   m_ObjectHideFlags: 0
